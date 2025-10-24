@@ -1,0 +1,23 @@
+import pandas as pd
+import csv
+
+# اسم الملف الذي تم تحميله
+CSV_FILE_NAME = 'ADJUSTMENT OF CBOS ACCOUNT .xlsx - CBOS RECONCILIATION.csv'
+
+def get_template_columns(file_name):
+    """يقرأ الصف الأول من ملف CSV/Excel لتحديد أسماء الأعمدة."""
+    try:
+        # قراءة الملف باستخدام أداة قراءة CSV القياسية لتحديد الأعمدة
+        with open(file_name, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            # الصف الأول هو رؤوس الأعمدة
+            header = next(reader)
+        # إزالة أي فراغات بيضاء من بداية ونهاية أسماء الأعمدة
+        columns = [col.strip() for col in header if col.strip()]
+        return columns
+    except FileNotFoundError:
+        return ["Column 1", "Column 2", "Column 3", "Column 4"] # أعمدة افتراضية في حالة الخطأ
+
+# جلب الأعمدة من ملفك
+template_columns = get_template_columns(CSV_FILE_NAME)
+# print("الأعمدة المستخرجة:", template_columns)
